@@ -20,4 +20,7 @@ func SetupRoutes(app *fiber.App) {
 	// Constrainst Group
 	constraints := api.Group("/constraints")
 	constraints.Get("/", constraint.GetConstraints)
+
+	advisory := api.Group("/advisory")
+	advisory.Post("/", handler.GetAdvisory)
 }

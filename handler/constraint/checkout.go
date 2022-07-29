@@ -27,9 +27,11 @@ func GetConstraintsAsGeojson(tableName string) (*map[string]interface{}, error) 
         FROM (
                 SELECT *
                 FROM public."%s"
+                limit 10
             ) inputs
     ) features;
 	`, tableName)
+    
 	// fmt.Println(dbstring)
 
 	var geojson map[string]interface{}
