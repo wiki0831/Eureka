@@ -35,27 +35,21 @@ func GetAdvisory(c *fiber.Ctx) error {
 }
 
 func RunAdvisoryLayerSet(input *model.AdvisoryQueryModel) *model.AdvisoryResponseModel {
-
 	var output model.AdvisoryResponseModel
-
-	RunLayerSets(input, &output)
-
-	return &output
-}
-
-func RunLayerSets(input *model.AdvisoryQueryModel, output *model.AdvisoryResponseModel) {
 	var waitGroup sync.WaitGroup
-	//# of thread group
+	//# of workers
 	waitGroup.Add(len(*&input.Layers))
-	//Running all layers
 	for _, cur := range input.Layers {
-		curLayer := new(model.AdvisoryLayer)
+		var curLayer model.AdvisoryLayer
 		{
 			curLayer.Name = cur
 		}
-		go RunLayer(&waitGroup, curLayer, input, output)
+		//Running individual layers
+		go RunLayer(&waitGroup, &curLayer, input, &output)
 	}
+	//wait for all to complete
 	waitGroup.Wait()
+	return &output
 }
 
 func RunLayer(waitGroup *sync.WaitGroup, curLayer *model.AdvisoryLayer, input *model.AdvisoryQueryModel, output *model.AdvisoryResponseModel) {
@@ -77,7 +71,6 @@ func GetASGeojson(layer, location string) (*map[string]interface{}, error) {
 	where 
 	ST_Intersects(st_geomfromtext('%s'),
 	geom)
-	limit 10
 	`, layer, location)
 
 	var geojson map[string]interface{}
