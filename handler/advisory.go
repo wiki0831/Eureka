@@ -28,10 +28,13 @@ func GetAdvisory(c *fiber.Ctx) error {
 	}
 
 	//Run Layerset
-	response := *RunAdvisoryLayerSet(AdvisoryQuery_Input)
-
-	//Format response
-	return c.JSON(response)
+	if c.Query("method") == "db" {
+		response, _ := DBAggregate(AdvisoryQuery_Input)
+		return c.JSON(response)
+	} else {
+		response := *RunAdvisoryLayerSet(AdvisoryQuery_Input)
+		return c.JSON(response)
+	}
 }
 
 func RunAdvisoryLayerSet(input *model.AdvisoryQueryModel) *model.AdvisoryResponseModel {
@@ -62,6 +65,29 @@ func RunLayer(waitGroup *sync.WaitGroup, curLayer *model.AdvisoryLayer, input *m
 	output.RuleSet = append(output.RuleSet, curLayer)
 	//Lift Sync Lock
 	defer waitGroup.Done()
+}
+
+func DBAggregate(input *model.AdvisoryQueryModel) (*map[string]interface{}, error) {
+	fetchString := ``
+	for i, cur := range input.Layers {
+		fetchString = fetchString + fmt.Sprintf(
+			`SELECT * FROM public."%s" where ST_Intersects(st_geomfromtext('%s'),geom)`,
+			cur, input.Geometry,
+		)
+		if i != len(input.Layers)-1 {
+			fetchString = fetchString + "union all "
+		}
+	}
+
+	var geojson map[string]interface{}
+	err := database.DB.QueryRow(context.Background(), jsonb_build_object(fetchString)).Scan(&geojson)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
+		return nil, err
+	}
+
+	return &geojson, nil
+	return nil, nil
 }
 
 func GetASGeojson(layer, location string) (*map[string]interface{}, error) {

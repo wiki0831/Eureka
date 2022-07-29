@@ -1,3 +1,4 @@
 .vscode/*
 logs/server.log
 eureka
+.DS_Store

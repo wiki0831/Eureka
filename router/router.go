@@ -2,7 +2,6 @@ package router
 
 import (
 	"eureka/handler"
-	"eureka/handler/constraint"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -16,10 +15,6 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/", handler.Welcome)
 	api.Get("/ping", handler.Pong)
 	api.Get("/health", handler.HealthCheck)
-
-	// Constrainst Group
-	constraints := api.Group("/constraints")
-	constraints.Get("/", constraint.GetConstraints)
 
 	advisory := api.Group("/advisory")
 	advisory.Post("/", handler.GetAdvisory)
