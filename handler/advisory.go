@@ -62,7 +62,7 @@ func RunLayer(waitGroup *sync.WaitGroup, curLayer *model.AdvisoryLayer, input *m
 		curLayer.Details, _ = GetASGeojson(curLayer.Name, input.Geometry)
 	}
 	curLayer.QueryDuration = int(time.Since(curTime).Milliseconds())
-	output.RuleSet = append(output.RuleSet, curLayer)
+	output.LayerSet = append(output.LayerSet, curLayer)
 	//Lift Sync Lock
 	defer waitGroup.Done()
 }

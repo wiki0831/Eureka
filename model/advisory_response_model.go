@@ -2,7 +2,7 @@ package model
 
 type AdvisoryResponseModel struct {
 	AdvisoryQueryModel
-	RuleSet []*AdvisoryLayer `json:"rule_set,omitempty"`
+	LayerSet []*AdvisoryLayer `json:"layer_set,omitempty"`
 }
 
 type AdvisoryLayer struct {

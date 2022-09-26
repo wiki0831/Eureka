@@ -15,6 +15,7 @@ create table public."polygon_gist" as (
   from public."polygon_no_idx"
 );
 CREATE INDEX polygon_gist_idx ON public."polygon_gist" USING GIST (geom);
+
 DROP Table if exists public."polygon_spgist";
 create table public."polygon_spgist" as (
   select *

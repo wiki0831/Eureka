@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "288c6028-e4b3-45ca-b23b-fbf1f65f4930",
+		"name": "eureka",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7629918"
+	},
+	"item": [
+		{
+			"name": "HealthCheck",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"You have reached eureka\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Advisory waitgroup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"geometry\": \"POLYGON((-88.31860836122884 31.08112055144609,-88.31860836122884 30.22406842838673,-87.48590492352722 30.326801619522044,-87.41155640230386 31.06838472992912,-88.31860836122884 31.08112055144609))\",\n    \"layers\": [\n        \"polygon_gist\",\n        \"point_gist\",\n        \"circle_gist\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/advisory",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"advisory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Advisory DBAggregate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"geometry\": \"GEOMETRYCOLLECTION(POLYGON((-80.86463247687696 26.24196992972729,-80.86463247687696 25.613092621072624,-81.05514416037781 25.616996894070937,-81.52709355814125 25.89387340127044,-81.46214639331143 26.245853422649162,-80.86463247687696 26.24196992972729)),POLYGON((-80.41541458680398 26.192444024876664,-80.49551609009411 25.4832030033771,-80.33747798900816 25.461703946776467,-79.98243348793842 26.066106296779665,-80.03439121980229 26.20604147027683,-80.41541458680398 26.192444024876664)),POLYGON((-81.19909571238719 25.638703253895898,-81.02538188290721 25.160639775570516,-80.37900484298176 25.30316183661641,-80.50828025096685 25.791573059557066,-81.47784581085504 25.889742612790414,-81.23949427738253 25.59134664630095,-81.19909571238719 25.638703253895898)),POLYGON((-81.1391708764641 26.97647696253533,-80.84739876804922 26.609483335991868,-80.59099297580583 26.64109928366217,-80.52910192250573 26.93707231058667,-80.64846323958453 27.149693427694203,-80.82971560996346 27.247992494006354,-81.1391708764641 26.97647696253533)))\",\n    \"layers\": [\n        \"polygon_gist\",\n        \"point_gist\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/advisory?method=db",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"advisory"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "db"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Advisory DBAggregate2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"geometry\": \"POLYGON ((-81.132674 25.574744, -80.775475 25.574744, -80.775475 25.831058, -81.132674 25.831058, -81.132674 25.574744))\",\n    \"layers\": [\n        \"polygon_gist\",\n        \"point_gist\",\n        \"circle_gist\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/advisory?method=db",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"advisory"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "db"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "127.0.0.1:3000",
+			"type": "string"
+		}
+	]
+}
